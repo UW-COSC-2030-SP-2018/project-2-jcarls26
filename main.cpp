@@ -7,6 +7,8 @@
 #include <iostream>
 #include <vector>
 #include "Helper.h"
+#include <string>
+#include <algorithm> //Used for testing purposes
 
 using namespace std;
 
@@ -38,12 +40,17 @@ int main()
 //QuickSort Test Function
 void QuickSortTest(vector<int> &vec)
 {
+	vector<int> stlvec = vec; //test vector
 	cout << "*/-----QuickSort-----/*" << endl;
 	cout << "Unsorted Vector: " << endl;
 	printVector(vec);
-	cout << "Vector Now Sorted: " << endl;	
+	cout << "Vector sorted with Quicksort: " << endl;	
 	QuickSort(vec);
 	printVector(vec);
+	//Compare with stl
+	cout << "Vector sorted with stl sort: " << endl;
+	sort(stlvec.begin(), stlvec.end());
+	printVector(stlvec);
 }
 //BinarySearch Test Function
 void BinarySearchTest(vector<int> &vec)
@@ -67,13 +74,17 @@ void BinarySearchTest(vector<int> &vec)
 //MergeSort Test Function
 void MergeSortTest(vector<int> &vec)
 {
+	vector<int> stlvec = vec; //test vector
 	cout << "*/-----MergeSort-----/*" << endl;
 	cout << "Unsorted Vector: " << endl;
 	printVector(vec);
 	mergeSort(vec, 0, vec.size() - 1);
 	cout << "Vector Sorted with MergeSort: " << endl;
 	printVector(vec);
-
+	//Compare with stl
+	cout << "Vector sorted with STL Sort: " << endl;
+	sort(stlvec.begin(), stlvec.end());
+	printVector(stlvec);
 }
 //HashFunction Test Function
 void HashTest()
@@ -83,10 +94,10 @@ void HashTest()
 
 	cout << "*/-----Text/Int To Int Hash-----/*" << endl;
 	cout << "hashing: Hello" << endl;
-	cout << myHash(Hash1) << endl;
+	cout << "Hash: " <<myHash(Hash1) << endl;
 	cout << "Hashing: 18563748697354627601" << endl;
 	//max int size is 20
-	cout << myHash(Hash2) << endl;
+	cout << "Hash: " << myHash(Hash2) << endl;
 }
 //BloomFilter Test Function
 void BloomFilterTest()
@@ -95,13 +106,30 @@ void BloomFilterTest()
 	 
 	BloomFilter bloom(1000, 3);
 	string searchWord = "Hello";
-	cout << "Search Word: ";
+	cout << "Search Word: " << searchWord << endl;
 	for (std::string::iterator iter = searchWord.begin(); iter != searchWord.end(); iter++)
 	{
-		cout << *iter;
 		bloom.add(*iter);
 	}
-	cout << endl;
+	
+	for (std::string::iterator iter = searchWord.begin(); iter != searchWord.end(); iter++)
+	{
+		cout << "Searching for: " << *iter << endl;
+
+		if (bloom.possiblyContains(*iter) == false)
+		{
+			cout << "Character Not found" << endl;
+		}
+		else
+		{
+			cout << "Character found!" << endl;
+		}
+	}
+
+	searchWord = "Batman";
+
+	cout << "Now searcing for word not in filter: " << searchWord << endl;
+
 	for (std::string::iterator iter = searchWord.begin(); iter != searchWord.end(); iter++)
 	{
 		cout << "Searching for: " << *iter << endl;
